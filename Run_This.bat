@@ -1,26 +1,27 @@
-@echo WAIT FOR THIS WINDOW TO AUTOMATICALLY CLOSE (1-2m)
+@echo WAIT FOR THIS WINDOW TO TURN GREEN. test results are saved next to Run_This.bat (1-2m)
 @echo off
-@echo Enter IP/Domain and press enter
+@echo Enter IP/Domain for iperf3 server and press enter
 @set /p ip=""
 @echo Starting Test with address of %ip%
-set LOGFILE=ConnectionTestOutput.log
 
 
 
-@echo Starting Test >> LOGFILE
-@echo Username: %username% >> LOGFILE
+@echo %date% %time% >> LOGFILE.log
+@echo Starting Test >> LOGFILE.log
+@echo Username: %username% >> LOGFILE.log
 @echo Starting Traceroute...
-tracert %ip% >> LOGFILE
+tracert %ip% >> LOGFILE.log
 @echo Traceroute Done
 @echo Starting two way test with iperf3...
-@echo normal iperf3 Test >> LOGFILE
-.\iperf3.exe -c %ip% >> LOGFILE
-@echo Reverse iperf3 Test >> LOGFILE
-.\iperf3.exe -c %ip% >> LOGFILE
+@echo Normal iperf3 test >> LOGFILE.log
+.\iperf3.exe -c %ip% >> LOGFILE.log
+@echo Reverse iperf3 Test >> LOGFILE.log
+.\iperf3.exe -c  %ip% -R >> LOGFILE.log
 @echo iperf3 tests done
 @echo Starting speed test...
-.\speedtest.exe --accept-license >> LOGFILE
+.\speedtest.exe --accept-license >> LOGFILE.log
 
-
-set /p empty=Your test is done! File saved to LOGFILE.log
-set /p Press enter to close
+@echo Your test file was saved to LOGFILE.log
+@echo Your test is done!
+color 2F
+set /p blank=Press enter to close
